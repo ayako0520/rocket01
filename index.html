@@ -5,73 +5,80 @@
   <title>Rocket Launch Animation</title>
 </head>
 <body>
-  <!-- SVGコードをここに貼り付けます -->
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
     <rect width="100%" height="100%" fill="#000033"/>
-  
+    
     <!-- Earth -->
     <g transform="translate(400,300)">
       <circle cx="0" cy="0" r="150" fill="#0077be">
-        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="24s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="34.3s" repeatCount="indefinite"/>
       </circle>
       <path d="M-30,-90 Q0,-120 30,-90 T90,-30 T30,90 T-90,30 T-30,-90" fill="#228B22">
-        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="24s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="34.3s" repeatCount="indefinite"/>
       </path>
       <!-- Equator -->
       <circle cx="0" cy="0" r="150" fill="none" stroke="#FFD700" stroke-width="2" stroke-dasharray="5,5">
-        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="24s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="34.3s" repeatCount="indefinite"/>
       </circle>
     </g>
-  
+    
     <!-- Eastward launch path (straight line) -->
     <path d="M400,150 L600,150" fill="none" stroke="#ff6347" stroke-width="2"/>
-  
+    
     <!-- Southward launch path -->
     <path d="M400,300 L550,450" fill="none" stroke="#4169E1" stroke-width="2"/>
-  
+    
     <!-- Rockets -->
     <circle cx="400" cy="150" r="5" fill="#ff6347">
-      <animateMotion path="M0,0 L200,0" dur="10s" repeatCount="indefinite"/>
+      <animateMotion begin="5s" path="M0,0 L200,0" dur="14.3s" repeatCount="indefinite"/>
     </circle>
     <circle cx="400" cy="300" r="5" fill="#4169E1">
-      <animateMotion path="M0,0 L150,150" dur="10s" repeatCount="indefinite"/>
+      <animateMotion begin="5s" path="M0,0 L150,150" dur="14.3s" repeatCount="indefinite"/>
     </circle>
-  
+    
     <!-- Data displays -->
-    <rect x="10" y="10" width="180" height="100" fill="rgba(255,99,71,0.5)" rx="10" ry="10"/>
+    <rect x="10" y="10" width="250" height="120" fill="rgba(255,99,71,0.5)" rx="10" ry="10"/>
     <text x="20" y="30" fill="white" font-size="12">東向きロケット:</text>
-    <text x="20" y="50" fill="white" font-size="12">速度: <tspan id="eastSpeed">0</tspan> km/h</text>
-    <text x="20" y="70" fill="white" font-size="12">高度: <tspan id="eastAltitude">0</tspan> km</text>
-    <text x="20" y="90" fill="white" font-size="12">加速度: <tspan id="eastAcceleration">0</tspan> m/s²</text>
-  
-    <rect x="10" y="120" width="180" height="100" fill="rgba(65,105,225,0.5)" rx="10" ry="10"/>
-    <text x="20" y="140" fill="white" font-size="12">南向きロケット:</text>
-    <text x="20" y="160" fill="white" font-size="12">速度: <tspan id="southSpeed">0</tspan> km/h</text>
-    <text x="20" y="180" fill="white" font-size="12">高度: <tspan id="southAltitude">0</tspan> km</text>
-    <text x="20" y="200" fill="white" font-size="12">加速度: <tspan id="southAcceleration">0</tspan> m/s²</text>
-  
+    <text x="20" y="50" fill="white" font-size="12">地球基準速度: <tspan id="eastSpeed">0</tspan> km/h</text>
+    <text x="20" y="70" fill="white" font-size="12">宇宙基準速度: <tspan id="eastSpaceSpeed">0</tspan> km/h</text>
+    <text x="20" y="90" fill="white" font-size="12">高度: <tspan id="eastAltitude">0</tspan> km</text>
+    <text x="20" y="110" fill="white" font-size="12">加速度: <tspan id="eastAcceleration">0</tspan> m/s²</text>
+    
+    <rect x="10" y="140" width="250" height="120" fill="rgba(65,105,225,0.5)" rx="10" ry="10"/>
+    <text x="20" y="160" fill="white" font-size="12">南向きロケット:</text>
+    <text x="20" y="180" fill="white" font-size="12">地球基準速度: <tspan id="southSpeed">0</tspan> km/h</text>
+    <text x="20" y="200" fill="white" font-size="12">宇宙基準速度: <tspan id="southSpaceSpeed">0</tspan> km/h</text>
+    <text x="20" y="220" fill="white" font-size="12">高度: <tspan id="southAltitude">0</tspan> km</text>
+    <text x="20" y="240" fill="white" font-size="12">加速度: <tspan id="southAcceleration">0</tspan> m/s²</text>
+    
     <text x="10" y="580" fill="white" font-size="14">地球の自転速度（赤道上）: 約1670 km/h</text>
-  
+    
     <script type="text/javascript">
     <![CDATA[
       function updateTelemetry(t) {
         const earthRotationSpeed = 1670;
         const maxRocketSpeed = 28000;
+        const initialGroundSpeed = 400;
         
         const eastSpeed = Math.floor(earthRotationSpeed + (maxRocketSpeed - earthRotationSpeed) * t);
+        const eastSpaceSpeed = Math.floor(initialGroundSpeed + (maxRocketSpeed - initialGroundSpeed) * t);
         document.getElementById('eastSpeed').textContent = eastSpeed;
+        document.getElementById('eastSpaceSpeed').textContent = eastSpaceSpeed;
         document.getElementById('eastAltitude').textContent = Math.floor(t * 400);
         document.getElementById('eastAcceleration').textContent = Math.floor(20 * (1 - t) + 1);
         
         const southSpeed = Math.floor(maxRocketSpeed * t);
+        const southSpaceSpeed = southSpeed;
         document.getElementById('southSpeed').textContent = southSpeed;
+        document.getElementById('southSpaceSpeed').textContent = southSpaceSpeed;
         document.getElementById('southAltitude').textContent = Math.floor(t * 400);
         document.getElementById('southAcceleration').textContent = Math.floor(22 * (1 - t) + 1);
       }
       
       let startTime = new Date().getTime();
       function animate() {
-        let t = (new Date().getTime() - startTime) / 10000;
+        let t = ((new Date().getTime() - startTime) - 5000) / 14300;
+        if (t < 0) t = 0;
         if (t > 1) t = 1;
         updateTelemetry(t);
         requestAnimationFrame(animate);
@@ -82,3 +89,5 @@
   </svg>
 </body>
 </html>
+
+    
