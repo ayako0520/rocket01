@@ -52,6 +52,9 @@
     <text x="20" y="240" fill="white" font-size="12">加速度: <tspan id="southAcceleration">0</tspan> m/s²</text>
     
     <text x="10" y="580" fill="white" font-size="14">地球の自転速度（赤道上）: 約1670 km/h</text>
+
+    <!-- Countdown display -->
+    <text id="countdown" x="400" y="300" fill="white" font-size="48" text-anchor="middle"></text>
     
     <script type="text/javascript">
     <![CDATA[
@@ -74,6 +77,16 @@
         document.getElementById('southAltitude').textContent = Math.floor(t * 400);
         document.getElementById('southAcceleration').textContent = Math.floor(22 * (1 - t) + 1);
       }
+
+      function updateCountdown() {
+        let timeElapsed = (new Date().getTime() - startTime) / 1000;
+        let countdownValue = 5 - Math.floor(timeElapsed);
+        if (countdownValue >= 0) {
+          document.getElementById('countdown').textContent = countdownValue;
+        } else {
+          document.getElementById('countdown').textContent = "";
+        }
+      }
       
       let startTime = new Date().getTime();
       function animate() {
@@ -81,6 +94,7 @@
         if (t < 0) t = 0;
         if (t > 1) t = 1;
         updateTelemetry(t);
+        updateCountdown();
         requestAnimationFrame(animate);
       }
       animate();
@@ -89,5 +103,3 @@
   </svg>
 </body>
 </html>
-
-    
